@@ -1,18 +1,37 @@
 [package]
 name = "wallpaper_windows_ramdomly"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 
 [dependencies]
-tokio = { version = "1", features = ["full"] }
-reqwest = { version = "0.11", features = ["blocking", "json"] }
+eframe = "0.22"
+reqwest = { version = "0.11", features = ["blocking"] }
 image = "0.24"
-winapi = { version = "0.3", features = ["winuser", "shellapi"] }
-winreg = "0.11"
-dirs = "5.0"
-
-[build-dependencies]
-winres = "0.1"
+winapi = { version = "0.3", features = ["winuser"] }
+winreg = "0.10"
+rand = "0.8"
 
 [package.metadata.winres]
 icon = "icon.ico"
+
+# Tambahkan bagian ini:
+[target.'cfg(windows)'.dependencies]
+winapi = { version = "0.3", features = ["winuser", "wincon"] }
+
+[build-dependencies]
+embed-resource = "2"
+winres = "0.1"
+
+[[bin]]
+name = "wallpaper_updater" 
+path = "src/main.rs"
+
+# Penting: Tambahkan ini agar konsol Windows tidak muncul
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+
+# Ini yang paling penting untuk GUI Windows
+[package.metadata.windows.subsystem]
+windows = "windows"  # Ini akan menetapkan subsystem ke Windows (bukan konsol)

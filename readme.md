@@ -1,84 +1,61 @@
-# Wallpaper Changer for Windows (Rust)
+# Wallpaper Updater
 
-## 📌 Deskripsi
-Program ini adalah aplikasi **Rust** yang secara otomatis mengunduh wallpaper dari internet dan mengatur wallpaper di Windows setiap **1 jam sekali**. Jika program dibuka kembali, wallpaper akan langsung diperbarui dengan gambar baru.
+Wallpaper Updater adalah aplikasi berbasis GUI untuk Windows yang secara otomatis mengunduh dan mengatur wallpaper dari sumber online dalam interval waktu tertentu. Aplikasi ini dibuat menggunakan Rust dengan eframe (egui) untuk antarmuka grafis.
 
-## 🛠 Fitur
-- Mengunduh wallpaper dari **https://minimalistic-wallpaper.demolab.com/?random**
-- Menyimpan gambar tanpa mengganti file sebelumnya
-- Mengonversi gambar ke **format BMP** agar kompatibel dengan Windows
-- Mengatur wallpaper secara otomatis
-- Menggunakan ikon khusus untuk aplikasi `.exe`
+## Fitur
+- Mengganti wallpaper secara manual dengan satu klik.
+- Mengunduh wallpaper dari berbagai sumber online.
+- Menyimpan dan mengonversi wallpaper ke format BMP.
+- Mengubah wallpaper dalam interval waktu tertentu secara otomatis.
+- Menjalankan aplikasi secara otomatis saat startup.
+- Meminimalkan aplikasi ke system tray.
 
-## 🚀 Cara Instalasi
-### 1️⃣ **Persyaratan**
-Pastikan sistem sudah memiliki **Rust dan Cargo**. Jika belum, instal dengan:
-```sh
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-```
-
-Selain itu, pastikan juga menginstal **MSYS2** dan `mingw-w64-gcc`:
-```sh
-pacman -S mingw-w64-x86_64-gcc mingw-w64-x86_64-binutils
-```
-
-### 2️⃣ **Clone Repository**
-```sh
-git clone https://github.com/username/repo-wallpaper.git
-cd repo-wallpaper
-```
-
-### 3️⃣ **Build Program**
-Jalankan perintah berikut untuk membangun aplikasi:
-```sh
-cargo build --release
-```
-Hasil build akan ada di folder `target/release/`.
-
-## 📌 Menjalankan Program
-Setelah build selesai, jalankan program dengan:
-```sh
-target/release/nama_program.exe
-```
-Program akan mulai mengunduh dan mengganti wallpaper setiap **1 jam sekali**.
-
-## 🎨 Mengubah Ikon Aplikasi
-1. Pastikan ada file ikon **`icon.ico`** dalam folder proyek.
-2. Tambahkan `build.rs` dengan kode berikut:
-   ```rust
-   fn main() {
-       let mut res = winres::WindowsResource::new();
-       res.set_icon("icon.ico");
-       res.compile().expect("Gagal meng-compile resource");
-   }
-   ```
-3. Edit `Cargo.toml` dan tambahkan:
-   ```toml
-   [build-dependencies]
-   winres = "0.1"
-   ```
-4. Build ulang dengan:
-   ```sh
-   cargo clean
-   cargo build --release
-   ```
-
-## ❗ Troubleshooting
-- **Ikon tidak berubah?** Jalankan:
+## Prasyarat
+Sebelum menjalankan atau mengompilasi aplikasi ini, pastikan Anda memiliki:
+- Rust (https://www.rust-lang.org/)
+- Cargo (termasuk dalam instalasi Rust)
+- Paket-paket berikut yang diperlukan:
   ```sh
-  ie4uinit.exe -ClearIconCache
-  taskkill /IM explorer.exe /F & start explorer
-  ```
-- **Wallpaper tidak berubah?** Pastikan program dijalankan dengan izin **Administrator**.
-- **Gagal build `windres`?** Coba instal ulang `mingw-w64-x86_64-binutils` dengan:
-  ```sh
-  pacman -S mingw-w64-x86_64-binutils
+  cargo add eframe winapi winreg image reqwest rand
   ```
 
-## 📜 Lisensi
-Proyek ini dirilis di bawah lisensi **MIT**.
+## Instalasi dan Penggunaan
+### 1. Clone Repository
+```sh
+git clone https://github.com/ardirsaputra/random-windows-wallpaper.git
+cd random-windows-wallpaper
+```
+
+### 2. Build dan Jalankan
+```sh
+cargo run --release
+```
+
+### 3. Menggunakan Aplikasi
+- Klik tombol "Ganti Wallpaper" untuk mengganti wallpaper secara manual.
+- Aktifkan opsi "Perbarui wallpaper secara otomatis" untuk mengatur wallpaper dalam interval tertentu.
+- Gunakan opsi "Jalankan saat startup" agar aplikasi berjalan otomatis saat Windows dinyalakan.
+- Pilih "Minimize ke tray" agar aplikasi berjalan di latar belakang.
+
+## Konfigurasi Tambahan
+### Mengubah Sumber Wallpaper
+Sumber wallpaper dapat diubah dengan memodifikasi konstanta `WALLPAPER_URLS` di dalam kode:
+```rust
+const WALLPAPER_URLS: &[&str] = &[
+    "https://minimalistic-wallpaper.demolab.com/?random",
+    "https://source.unsplash.com/random/1920x1080",
+    "https://picsum.photos/1920/1080",
+    "https://images.pexels.com/photos/random/1920/1080",
+];
+```
+Tambahkan atau ganti URL dengan sumber wallpaper favorit Anda.
+
+## Lisensi
+Proyek ini menggunakan lisensi MIT. Silakan lihat file `LICENSE` untuk informasi lebih lanjut.
+
+## Kontribusi
+Jika ingin berkontribusi, silakan buat pull request atau laporkan masalah di halaman repository proyek ini.
 
 ---
-
-✅ **Proyek selesai!** Jika ada pertanyaan atau masalah, silakan buat _issue_ di GitHub. 🚀
+Dibuat dengan ❤️ menggunakan Rust dan egui.
 
